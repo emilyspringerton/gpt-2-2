@@ -8,23 +8,19 @@ on:
 
 jobs:
   build-and-test:
-    # CRITICAL FIX: Use ubuntu-20.04 which supports Python 3.7
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    container: python:3.7
     
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.7"
-
-    - name: Install dependencies
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        # TensorFlow 1.15.5 is required for this legacy codebase
+        # Legacy TensorFlow 1.15.5 for GPT-2
         pip install tensorflow==1.15.5 protobuf==3.20.0
         pip install fire regex requests tqdm pytest mock
+        # Install repo requirements if present
         if [ -f requirements.txt ]; then pip install -r requirements.txt --no-deps; fi
 
     - name: Download Model (124M)
