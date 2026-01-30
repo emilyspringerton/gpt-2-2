@@ -29,6 +29,10 @@ int main(int argc, char* argv[]) {
 
     // 2. Load Graph Def
     FILE* f = fopen(model_path, "rb");
+    if (!f) {
+        fprintf(stderr, "Failed to open model file: %s\n", model_path);
+        return 1;
+    }
     fseek(f, 0, SEEK_END);
     long fsize = ftell(f);
     fseek(f, 0, SEEK_SET);
